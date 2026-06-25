@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 // ─── Datenbank ────────────────────────────────────────────────────────────────
+// Datei kopieren nach config/config.php und Zugangsdaten eintragen
 define('DB_HOST', 'localhost');
 define('DB_PORT', 3306);
 define('DB_NAME', 'itd_landmaschinen');
@@ -22,7 +23,6 @@ define('SESSION_NAME', 'itd_lm_session');
 // ─── API ───────────────────────────────────────────────────────────────────────
 define('API_TOKEN_LIFETIME', 86400 * 30);   // 30 Tage
 
-// ─── Pfade (werden in index.php überschrieben) ─────────────────────────────────
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', dirname(__DIR__));
 }

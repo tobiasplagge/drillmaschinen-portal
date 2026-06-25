@@ -1,6 +1,19 @@
-venv/
-.venv/
-__pycache__/
-uploads/
+# Konfiguration mit DB-Zugangsdaten niemals einchecken
+config/config.php
+
+# Setup-Assistent nach Installation löschen
+setup/install.php
+
+# Lokale Overrides
+*.local.php
 .env
-*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Betriebssystem
+.DS_Store
+Thumbs.db
