@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Drillmaschinen Portal</title>
+  </head>
+  <body>
+    <h1>Trips</h1>
+    <table border="1" cellpadding="6">
+      <tr><th>ID</th><th>Device</th><th>Trip ID</th><th>Uploaded</th></tr>
+      {% for t in trips %}
+      <tr>
+        <td><a href="/trip/{{ t.id }}">{{ t.id }}</a></td>
+        <td>{{ t.device_id }}</td>
+        <td>{{ t.trip_id }}</td>
+        <td>{{ t.uploaded_at }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
