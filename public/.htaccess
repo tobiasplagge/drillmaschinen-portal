@@ -1,0 +1,28 @@
+Options -Indexes
+Options -MultiViews
+
+# URL-Rewriting: alles über index.php leiten
+RewriteEngine On
+RewriteBase /
+
+# Statische Dateien direkt ausliefern
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Alles andere → index.php
+RewriteRule ^ index.php [QSA,L]
+
+# Sicherheitsheader
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# PHP-Dateien außerhalb public/ sperren (Fallback)
+<FilesMatch "\.(php)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
