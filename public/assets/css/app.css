@@ -274,6 +274,7 @@ body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background
 .itd-badge-method-post  { background: #e6f4df; color: #1e6e0f; }
 .itd-badge-method-get   { background: #deeef8; color: #1a5b8a; }
 .itd-badge-method-patch { background: #fef3df; color: #8b5e0a; }
+.itd-badge-method-esp32 { background: #f0e8f8; color: #6b2d8a; }
 
 /* ─── PAGINATION ──────────────────────────────────────────────────────────── */
 .itd-pagination {

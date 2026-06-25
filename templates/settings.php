@@ -147,8 +147,9 @@ require BASE_PATH . '/templates/layout.php';
 
           <?php
           $endpoints = [
-              ['POST', '/auth/token',           'Token ausstellen',              '{ "username": "...", "password": "..." }'],
-              ['POST', '/trips',                 'Fahrt mit Batch-Daten anlegen', '{ "machine_id": "DR-001", "field_name": "Nordfeld", "started_at": "2026-06-25T06:12:00", "ended_at": "...", "area_ha": 18.4, "seed_type": "Winterweizen", "gps_points": [...], "events": [...] }'],
+              ['ESP32','../trips/upload',        'ESP32-Upload (multipart/form-data)', 'Felder: trip_id, device_id, metadata (JSON), gps_csv, main_events_csv, sensor_events_csv'],
+              ['POST', '/auth/token',            'Token ausstellen',              '{ "username": "...", "password": "..." }'],
+              ['POST', '/trips',                 'Fahrt mit Batch-Daten anlegen', '{ "machine_id": "DR-001", "field_name": "Nordfeld", "started_at": "2026-06-25T06:12:00", "gps_points": [...], "events": [...] }'],
               ['GET',  '/trips',                 'Fahrten abrufen',               'Query-Parameter: page, limit, machine_id, status, date_from, date_to, search'],
               ['GET',  '/trips/{id}',            'Einzelne Fahrt abrufen',        '– (inkl. GPS-Punkte und Ereignisse)'],
               ['POST', '/trips/{id}/events',     'Einzelnes Ereignis hinzufügen', '{ "timestamp": "...", "type": "fault|blower|warning|info", "message": "...", "lat": 51.48, "lon": 9.21 }'],
@@ -164,7 +165,7 @@ require BASE_PATH . '/templates/layout.php';
                 <?php foreach ($endpoints as [$method, $path, $desc, $body]): ?>
                 <tr>
                   <td><span class="itd-badge itd-badge-method-<?= strtolower($method) ?>"><?= $method ?></span></td>
-                  <td><code>/api/v1<?= $path ?></code></td>
+                  <td><code><?= $method === 'ESP32' ? '/api' . $path : '/api/v1' . $path ?></code></td>
                   <td><?= $desc ?></td>
                   <td><small class="text-muted font-monospace"><?= e($body) ?></small></td>
                 </tr>

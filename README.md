@@ -196,14 +196,35 @@ Antwort:
 
 ### Alle Endpunkte
 
-| Methode | Pfad | Beschreibung |
+| Methode | Pfad | Format | Beschreibung |
+|---|---|---|---|
+| `POST` | `/api/trips/upload` | `multipart/form-data` | **ESP32-Upload** (Gerät sendet diesen Endpunkt direkt) |
+| `POST` | `/api/v1/auth/token` | JSON | API-Token ausstellen |
+| `POST` | `/api/v1/trips` | JSON | Fahrt mit GPS-Punkten und Ereignissen übermitteln |
+| `GET`  | `/api/v1/trips` | JSON | Fahrten abrufen (Parameter: `page`, `limit`, `machine_id`, `status`, `date_from`, `date_to`, `search`) |
+| `GET`  | `/api/v1/trips/{id}` | JSON | Einzelne Fahrt abrufen (inkl. GPS-Punkte und Ereignisse) |
+| `POST` | `/api/v1/trips/{id}/events` | JSON | Einzelnes Ereignis zu einer Fahrt hinzufügen |
+| `PATCH`| `/api/v1/trips/{id}/finish` | JSON | Fahrt nachträglich abschließen |
+
+### ESP32-Upload-Endpunkt (`/api/trips/upload`)
+
+Das ESP32-Gerät sendet `multipart/form-data` mit folgenden Feldern:
+
+| Feld | Typ | Beschreibung |
 |---|---|---|
-| `POST` | `/api/v1/auth/token` | API-Token ausstellen |
-| `POST` | `/api/v1/trips` | Fahrt mit GPS-Punkten und Ereignissen übermitteln |
-| `GET`  | `/api/v1/trips` | Fahrten abrufen (Parameter: `page`, `limit`, `machine_id`, `status`, `date_from`, `date_to`, `search`) |
-| `GET`  | `/api/v1/trips/{id}` | Einzelne Fahrt abrufen (inkl. GPS-Punkte und Ereignisse) |
-| `POST` | `/api/v1/trips/{id}/events` | Einzelnes Ereignis zu einer Fahrt hinzufügen |
-| `PATCH`| `/api/v1/trips/{id}/finish` | Fahrt nachträglich abschließen |
+| `trip_id` | String | Fahrt-ID vom Gerät (z.B. `M01-B000001-F0001`) |
+| `device_id` | String | Geräte-ID |
+| `metadata` | JSON-Datei | Metadaten (Feldname, Saatgut, Firmware-Version, …) |
+| `gps_csv` | CSV-Datei | GPS-Spur (`uptime_ms`, `latitude`, `longitude`, `speed_mps`, …) |
+| `main_events_csv` | CSV-Datei | Hauptsignal-Ereignisse (Störungen) |
+| `sensor_events_csv` | CSV-Datei | Sensor-Auslösungen |
+| `combined_geojson` | GeoJSON-Datei | Kombinierte Route (wird verarbeitet aber nicht separat gespeichert) |
+
+Im ESP32-Webinterface unter **Einstellungen → Daten-Upload** eintragen:
+```
+Upload-URL:  https://ihre-domain.de/api/trips/upload
+API-Token:   <Token aus Portal-Einstellungen>
+```
 
 ---
 
