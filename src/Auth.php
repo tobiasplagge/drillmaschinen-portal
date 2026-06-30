@@ -100,14 +100,21 @@ class Auth
     {
         $hash = self::hashToken($rawToken);
         return Database::fetchOne(
-            'SELECT id, username, role FROM users WHERE api_token_hash = ? AND active = 1',
+            'SELECT id, username, role FROM users
+             WHERE api_token_hash = ? AND active = 1
+               AND (api_token_expires_at IS NULL OR api_token_expires_at > NOW())',
             [$hash]
         );
     }
 
     public static function authenticateApi(): array
     {
-        $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        // Apache/PHP-FPM may pass the header under different keys depending on setup
+        $allHeaders = function_exists('getallheaders') ? array_change_key_case(getallheaders(), CASE_LOWER) : [];
+        $header = $_SERVER['HTTP_AUTHORIZATION']
+               ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+               ?? $allHeaders['authorization']
+               ?? '';
         if (preg_match('/^Bearer\s+(.+)$/i', $header, $m)) {
             $user = self::validateApiToken(trim($m[1]));
             if ($user) {

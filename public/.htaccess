@@ -5,6 +5,9 @@ Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# Authorization-Header an PHP weitergeben (PHP-CGI/FPM-Kompatibilität)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
 # Statische Dateien direkt ausliefern
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
